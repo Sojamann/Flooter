@@ -1,0 +1,82 @@
+hooks:
+  source: addons/hooks.py
+  before_all:
+    use: BeforeAll
+    args:
+      k1: Hello
+      k2: World
+
+transformers:
+  source: addons/transformers.py
+  names:
+    table: tabletransformer
+
+comperators:
+  source: addons/comperators.py
+  names:
+    noorder: noorder
+
+strategies:
+  source: addons/strats.py
+  names:
+    test: test
+
+host: https://wikipedia.org
+
+storage:
+  main: main
+  runs: runs
+
+parameters:
+  application:
+    occurrence:
+      min: 0
+      max: 2
+    values: [1, 2]
+  protocol:
+    values: [1000, 4]
+
+request:
+  header:
+    authentication: abc
+
+endpoints:
+  t/{{test}}:
+    uses: []
+
+  flow/overview:
+    strategy:
+      name: permutations
+    comperator: noorder
+    parameters:
+      test:
+        values: [1, 2]
+    uses:
+      - application
+      - limit
+  classification/traffic:
+    comperator: noorder
+    uses: [application, protocol]
+
+testsets:
+  offline:
+    # override
+    hooks:
+      source: addons/hooks.py
+      before_all:
+        use: BeforeAll
+
+    # extends endpoint definition
+    endpoints:
+      project/list:
+        # override params
+        parameters:
+          projectId:
+            values: [P_00001, '{{projectId}}']
+
+        transformer: table
+        uses: [limit, projectId]
+
+    parameters:
+      limit:
+        values: [1000, 0, None]

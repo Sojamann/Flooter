@@ -1,0 +1,6 @@
+# Python related dirs
+venv/
+__pycache__/
+
+# Python related files
+*.pyc
