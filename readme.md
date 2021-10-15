@@ -1,3 +1,7 @@
+# WELL
+It should work. Lacks some documentation and code cleanup but other than that it is fine I guess.
+
+
 # Flooter
 Flooter is meant as a diff test tool for rest enpoints. Flooter will, according to the configuration, make requests to an endpoint and store the responses as run.
 Then to a later date you can repeat the requests and compare the responses with the ones from the previous run. When changes are okay you can accept them to be the new 'main record'.
